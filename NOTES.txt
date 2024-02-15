@@ -1,0 +1,38 @@
+Folder structure
+
+src -
+  -index.js
+  -app.js
+  -index.css
+  -app.css
+  -config.js
+  -theme.js
+
+  /components
+    -Navbar.jsx
+    -FlexBetween.jsx
+    -Friend.jsx
+    -UserImage.jsx
+    -WidgetWrapper.jsx
+
+  /pages
+    /homePage/index.js
+    /loginPage/index.js
+    /profilePage/index.js
+
+  /widgets
+    -AdvertWidget.jsx
+    -FriendListWidget.jsx
+    -MyPostWidget.jsx
+    -PostsWidgets.jsx
+    -PostWidget.jsx
+    -UserWidget.jsx
+
+  /store
+    /slice
+      -index.js
+    /state
+
+
+
+
