@@ -9,6 +9,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 import Layout from "components/Layout";
+import NotFound from "pages/notfound";
 
 function App() {
   const mode = useSelector((state) => state.mode);
@@ -58,6 +59,7 @@ function App() {
                 )
               }
             />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

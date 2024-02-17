@@ -48,8 +48,6 @@ const PostWidget = ({
     dispatch(setPost({ post: updatedPost }));
   };
 
-  console.log({ postUserId, loggedInUserId });
-
   return (
     <WidgetWrapper m="2rem 0">
       <Friend

@@ -45,7 +45,6 @@ const Navbar = () => {
   const fullName = `${user.firstName} ${user.lastName}`;
 
   const callSearchApi = async (searchString) => {
-    console.log("searchString", searchString);
     const apiResponse = await fetch(
       `${API_URL}/search?username=${searchString}`,
       {
@@ -57,7 +56,6 @@ const Navbar = () => {
     const searchResult = await apiResponse.json();
 
     setSearchResult(searchResult);
-    console.log("searchResult", searchResult);
   };
 
   const handleSearch = debounce((e) => {

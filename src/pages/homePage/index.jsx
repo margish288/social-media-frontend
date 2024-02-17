@@ -1,8 +1,6 @@
 import { Box, useMediaQuery } from "@mui/material";
-import { useSelector } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
-import Navbar from "components/Navbar";
 import UserWidget from "widgets/UserWidget";
 import MyPostWidget from "widgets/MyPostWidget";
 import PostsWidget from "widgets/PostsWidget";
@@ -14,11 +12,8 @@ const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { _id, picturePath } = useSelector((state) => state.user);
 
-  // const notifyUser = useCallback(() => toast("Post is created..."), []);
-
   return (
     <Box>
-      {/* {notifyUser()} */}
       <Box
         width="100%"
         padding="2rem 6%"

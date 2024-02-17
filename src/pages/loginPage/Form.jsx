@@ -13,10 +13,10 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setLogin } from "store/slice";
 import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 import { API_URL } from "config";
+import { setLogin } from "store/slice";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),

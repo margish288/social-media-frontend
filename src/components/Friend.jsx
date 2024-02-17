@@ -6,6 +6,7 @@ import { setFriends } from "store/slice";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 import { API_URL } from "config";
+import { toast } from "react-toastify";
 
 const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
       },
     });
     const data = await response.json();
+    toast(data.message);
     dispatch(setFriends({ friends: data }));
   };
 
