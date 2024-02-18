@@ -11,9 +11,11 @@ import { toast } from "react-toastify";
 const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { _id } = useSelector((state) => state.user);
-  const token = useSelector((state) => state.token);
-  const friends = useSelector((state) => state.user.friends);
+  const user = useSelector((state) => state.user.user);
+  const token = useSelector((state) => state.auth.user.token);
+  console.log(user);
+  const friends = user.friends;
+  const _id = user._id;
 
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;

@@ -10,11 +10,25 @@ import { createTheme } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 import Layout from "components/Layout";
 import NotFound from "pages/notfound";
+import { getUserToken } from "misc/getUserToken";
 
 function App() {
   const mode = useSelector((state) => state.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  const isAuth = Boolean(useSelector((state) => state.token));
+  const { user } = useSelector((state) => state.auth);
+  const isAuth = Boolean(user?.token);
+
+  if (!getUserToken()) {
+    localStorage.setItem("token", user?.token);
+  }
+
+  // TODO:
+  // Fix like button
+  // Fix ADD friend
+  // Fix Profile page
+  // Fix Search API
+  // Fix logout and accesstoken removal on logout
+  // Fix register page
 
   return (
     <div className="app">
