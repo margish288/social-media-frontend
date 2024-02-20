@@ -9,7 +9,6 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.user);
-
   const friends = user.friends;
   const _id = user._id;
 
