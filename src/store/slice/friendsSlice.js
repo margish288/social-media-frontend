@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getFriends } from "../action/friendsAction";
+import { getFriends, patchFriend } from "../action/friendsAction";
 
 const initialState = {
   status: null,
@@ -28,6 +28,24 @@ const friendsSlice = createSlice({
       state.status = "failed";
       state.isLoading = false;
       state.friends = null;
+      state.error = action.error.message;
+    });
+
+    // patch friend
+    builder.addCase(patchFriend.pending, (state, action) => {
+      state.status = "loading";
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(patchFriend.fulfilled, (state, action) => {
+      state.status = "success";
+      state.isLoading = false;
+      state.friends = action.payload;
+      state.error = null;
+    });
+    builder.addCase(patchFriend.rejected, (state, action) => {
+      state.status = "success";
+      state.isLoading = false;
       state.error = action.error.message;
     });
   },

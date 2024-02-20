@@ -13,3 +13,7 @@ export const getUser = createAsyncThunk(
     }
   }
 );
+
+export const userLogout = () => ({
+  type: "user/logout",
+});
