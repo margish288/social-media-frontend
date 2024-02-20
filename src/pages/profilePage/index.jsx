@@ -12,21 +12,14 @@ import UserWidget from "widgets/UserWidget";
 const ProfilePage = ({ from }) => {
   const [user, setUser] = useState(null);
   const { userId } = useParams();
-  const token = useSelector((state) => state.token);
+  const userData = useSelector((state) => state.user);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
 
-  const getUser = async () => {
-    const response = await fetch(`${API_URL}/users/${userId}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await response.json();
-    setUser(data);
-  };
-
   useEffect(() => {
-    getUser();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    if (userData.status === "success") {
+      setUser(userData.user);
+    }
+  }, [userData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) return null;
 

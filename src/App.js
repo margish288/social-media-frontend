@@ -13,7 +13,7 @@ import NotFound from "pages/notfound";
 import { getUserToken } from "misc/getUserToken";
 
 function App() {
-  const mode = useSelector((state) => state.mode);
+  const mode = useSelector((state) => state.localStore.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   const { user } = useSelector((state) => state.auth);
   const isAuth = Boolean(user?.token);

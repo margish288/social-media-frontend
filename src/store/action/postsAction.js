@@ -14,6 +14,18 @@ export const fetchPosts = createAsyncThunk(
   }
 );
 
+export const fetchUserPosts = createAsyncThunk(
+  "posts/fetchUserPosts",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const response = await callApi(`${API_URL}/posts/${userId}/posts`, "GET");
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const clearPost = createAsyncThunk(
   "posts/clearPosts",
   async (data, { rejectWithValue }) => {
@@ -30,8 +42,25 @@ export const createPost = createAsyncThunk(
   "posts/createPost",
   async (data, { rejectWithValue }) => {
     try {
-      console.log({ data });
       const response = await callApi(`${API_URL}/posts`, "POST", data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const patchLike = createAsyncThunk(
+  "posts/like",
+  async (data, { rejectWithValue }) => {
+    try {
+      const { postId } = data;
+      const response = callApi(
+        `${API_URL}/posts/${postId}/like`,
+        "PATCH",
+        data
+      );
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

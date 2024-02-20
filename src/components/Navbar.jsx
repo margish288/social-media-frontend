@@ -21,11 +21,12 @@ import {
   Close,
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { setMode, setLogout, setSearchResult } from "store/slice";
+import { setMode } from "store/slice";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 import { debounce } from "misc/debounce";
 import { API_URL } from "config";
+import { userLogout } from "store/action/userAction";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -57,13 +58,13 @@ const Navbar = () => {
 
     const searchResult = await apiResponse.json();
 
-    setSearchResult(searchResult);
+    // setSearchResult(searchResult);
   };
 
   const handleSearch = debounce((e) => {
     const searchString = e.target.value || "";
     if (!searchString) {
-      setSearchResult(null);
+      // setSearchResult(null);
       navigate("/home");
 
       return;
@@ -138,7 +139,9 @@ const Navbar = () => {
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
               </MenuItem>
-              <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
+              <MenuItem onClick={() => dispatch(userLogout())}>
+                Log Out
+              </MenuItem>
             </Select>
           </FormControl>
         </FlexBetween>
@@ -212,11 +215,16 @@ const Navbar = () => {
               >
                 <MenuItem
                   value={fullName}
-                  onClick={() => navigate(`/profile/65c7be9c180232e6abb7ab54`)}
+                  onClick={() => navigate(`/profile/${user._id}`)}
                 >
                   <Typography>{fullName}</Typography>
                 </MenuItem>
-                <MenuItem onClick={() => dispatch(setLogout())}>
+                <MenuItem
+                  onClick={() => {
+                    dispatch(userLogout());
+                    navigate("/");
+                  }}
+                >
                   Log Out
                 </MenuItem>
               </Select>

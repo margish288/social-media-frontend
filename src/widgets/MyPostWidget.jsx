@@ -48,6 +48,7 @@ const MyPostWidget = ({ userId, picturePath }) => {
       formData.append("picturePath", image.name);
     }
     dispatch(createPost(formData));
+    toast("Post created successfully");
     setImage(null);
     setPost("");
   };

@@ -16,3 +16,18 @@ export const getFriends = createAsyncThunk(
     }
   }
 );
+
+export const patchFriend = createAsyncThunk(
+  "friends/patchFriends",
+  async ({ _id, friendId }, { rejectWithValue }) => {
+    try {
+      const response = await callApi(
+        `${API_URL}/users/${_id}/${friendId}`,
+        "PATCH"
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

@@ -1,28 +1,19 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setPosts } from "store/slice";
 import PostWidget from "./PostWidget";
-import { API_URL } from "config";
-import { fetchPosts } from "store/action/postsAction";
+import { fetchPosts, fetchUserPosts } from "store/action/postsAction";
 
 const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
   const postsData = useSelector((state) => state.posts);
-  const authUser = useSelector((state) => state.auth);
-  const { token } = authUser.user;
   const posts = postsData.posts;
 
   const getPosts = () => {
     dispatch(fetchPosts());
   };
 
-  const getUserPosts = async () => {
-    const response = await fetch(`${API_URL}/posts/${userId}/posts`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await response.json();
-    dispatch(setPosts({ posts: data }));
+  const getUserPosts = () => {
+    dispatch(fetchUserPosts(userId));
   };
 
   useEffect(() => {
@@ -48,7 +39,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
           likes,
           comments,
         }) => (
-          <>
+          <div key={_id}>
             <PostWidget
               key={_id}
               postId={_id}
@@ -61,7 +52,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
               likes={likes}
               comments={comments}
             />
-          </>
+          </div>
         )
       )}
     </>

@@ -13,3 +13,5 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
+export const logoutUser = "auth/logout";

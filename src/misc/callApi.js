@@ -25,7 +25,8 @@ export const callApi = async (
       responseData = await axios.post(apiUrl, dataToSend, { headers });
       break;
 
-    case "PUT":
+    case "PATCH":
+      responseData = await axios.patch(apiUrl, dataToSend, { headers });
       break;
 
     default:

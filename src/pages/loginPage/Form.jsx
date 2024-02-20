@@ -62,6 +62,7 @@ const Form = () => {
 
   useEffect(() => {
     if (authUser.status === "success" && authUser.user) {
+      localStorage.setItem("token", authUser.user.token);
       navigate("/home");
     }
   }, [authUser, navigate]);
