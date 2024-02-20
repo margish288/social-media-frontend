@@ -1,5 +1,5 @@
 import { Box, useMediaQuery } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import UserWidget from "widgets/UserWidget";
 import MyPostWidget from "widgets/MyPostWidget";
@@ -10,7 +10,8 @@ import FriendListWidget from "widgets/FriendListWidget";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const { _id, picturePath } = useSelector((state) => state.user);
+  const user = useSelector((state) => state.auth.user.user);
+  const { _id, picturePath } = user;
 
   return (
     <Box>
@@ -28,7 +29,11 @@ const HomePage = () => {
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
-          <MyPostWidget flexBasis={"50%"} picturePath={picturePath} />
+          <MyPostWidget
+            userId={_id}
+            flexBasis={"50%"}
+            picturePath={picturePath}
+          />
           <PostsWidget userId={_id} />
         </Box>
         {isNonMobileScreens && (

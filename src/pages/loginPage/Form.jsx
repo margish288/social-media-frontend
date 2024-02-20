@@ -1,4 +1,7 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Dropzone from "react-dropzone";
 import {
   Box,
   Button,
@@ -11,12 +14,9 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import Dropzone from "react-dropzone";
 import FlexBetween from "components/FlexBetween";
 import { API_URL } from "config";
-import { setLogin } from "store/slice";
+import { loginUser } from "store/action/loginAction";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -58,6 +58,14 @@ const Form = () => {
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 
+  const authUser = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (authUser.status === "success" && authUser.user) {
+      navigate("/home");
+    }
+  }, [authUser, navigate]);
+
   const register = async (values, onSubmitProps) => {
     // this allows us to send form info with image
     const formData = new FormData();
@@ -79,24 +87,8 @@ const Form = () => {
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch(`${API_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
-    const loggedIn = await loggedInResponse.json();
+    dispatch(loginUser(values));
     onSubmitProps.resetForm();
-    // TODO: set token to cookies with time interval
-    if (loggedIn) {
-      dispatch(
-        setLogin({
-          user: loggedIn.user,
-          token: loggedIn.token,
-        })
-      );
-
-      navigate("/home");
-    }
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {

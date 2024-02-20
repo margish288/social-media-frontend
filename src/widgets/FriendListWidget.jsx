@@ -1,29 +1,27 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
-import { API_URL } from "config";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setFriends } from "store/slice";
+import { getFriends } from "store/action/friendsAction";
 
 const FriendListWidget = ({ userId }) => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
-  const token = useSelector((state) => state.token);
-  const friends = useSelector((state) => state.user.friends);
+  const friendData = useSelector((state) => state.friends);
+  const friends = friendData?.friends || []; // TODO: fix this
 
-  const getFriends = async () => {
-    const response = await fetch(`${API_URL}/users/${userId}/friends`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const data = await response.json();
-    dispatch(setFriends({ friends: data }));
+  const getFriendsList = () => {
+    dispatch(getFriends(userId));
   };
 
   useEffect(() => {
-    getFriends();
+    getFriendsList();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (friendData.isLoading) {
+    return <WidgetWrapper>Loading...</WidgetWrapper>;
+  }
 
   return (
     <WidgetWrapper>
