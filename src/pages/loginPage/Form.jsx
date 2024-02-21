@@ -15,8 +15,7 @@ import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
 import FlexBetween from "components/FlexBetween";
-import { API_URL } from "config";
-import { loginUser } from "store/action/loginAction";
+import { loginUser, registerUser } from "store/action/loginAction";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -59,15 +58,22 @@ const Form = () => {
   const isRegister = pageType === "register";
 
   const authUser = useSelector((state) => state.auth);
-
+  const registerRes = useSelector((state) => state.register);
   useEffect(() => {
-    if (authUser.status === "success" && authUser.user) {
+    if (authUser.status === "success" && authUser.user.token) {
       localStorage.setItem("token", authUser.user.token);
       navigate("/home");
     }
   }, [authUser, navigate]);
 
-  const register = async (values, onSubmitProps) => {
+  useEffect(() => {
+    if (registerRes.status === "success" && registerRes.response) {
+      setPageType("login");
+      navigate(registerRes.response.redirectTo);
+    }
+  }, [registerRes, navigate]);
+
+  const register = (values, onSubmitProps) => {
     // this allows us to send form info with image
     const formData = new FormData();
     for (let value in values) {
@@ -75,26 +81,19 @@ const Form = () => {
     }
     formData.append("picturePath", values.picture.name);
 
-    const savedUserResponse = await fetch(`${API_URL}/auth/register`, {
-      method: "POST",
-      body: formData,
-    });
-    const savedUser = await savedUserResponse.json();
+    dispatch(registerUser(formData));
     onSubmitProps.resetForm();
-
-    if (savedUser) {
-      setPageType("login");
-    }
+    setPageType("login");
   };
 
-  const login = async (values, onSubmitProps) => {
+  const login = (values, onSubmitProps) => {
     dispatch(loginUser(values));
     onSubmitProps.resetForm();
   };
 
-  const handleFormSubmit = async (values, onSubmitProps) => {
-    if (isLogin) await login(values, onSubmitProps);
-    if (isRegister) await register(values, onSubmitProps);
+  const handleFormSubmit = (values, onSubmitProps) => {
+    if (isLogin) login(values, onSubmitProps);
+    if (isRegister) register(values, onSubmitProps);
   };
 
   return (

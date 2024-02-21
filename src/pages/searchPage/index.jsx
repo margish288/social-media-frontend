@@ -11,7 +11,7 @@ const SearchPage = () => {
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const searchResult = useSelector((state) => state.searchResponse);
-  console.log(searchResult);
+
   if (searchResult.status === "failed" || !searchResult.searchResult) {
     return (
       <Box

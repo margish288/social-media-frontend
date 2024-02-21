@@ -131,7 +131,12 @@ const Navbar = () => {
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
               </MenuItem>
-              <MenuItem onClick={() => dispatch(userLogout())}>
+              <MenuItem
+                onClick={() => {
+                  dispatch(userLogout());
+                  navigate("/");
+                }}
+              >
                 Log Out
               </MenuItem>
             </Select>

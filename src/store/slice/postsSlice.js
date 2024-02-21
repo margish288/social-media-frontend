@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createPost, fetchPosts, patchLike } from "../action/postsAction";
+import {
+  createPost,
+  fetchPosts,
+  fetchUserPosts,
+  patchLike,
+} from "../action/postsAction";
 
 const initialState = {
   status: null,
@@ -27,6 +32,24 @@ const postsSlice = createSlice({
       state.error = null;
     });
     builder.addCase(fetchPosts.rejected, (state, action) => {
+      state.status = "failed";
+      state.isLoading = false;
+      state.posts = [];
+      state.error = action.error.message;
+    });
+
+    builder.addCase(fetchUserPosts.pending, (state, action) => {
+      state.status = "loading";
+      state.isLoading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchUserPosts.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.status = "success";
+      state.posts = action.payload;
+      state.error = null;
+    });
+    builder.addCase(fetchUserPosts.rejected, (state, action) => {
       state.status = "failed";
       state.isLoading = false;
       state.posts = [];

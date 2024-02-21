@@ -1,6 +1,5 @@
 import { Box, useMediaQuery, Typography, useTheme } from "@mui/material";
 import FriendListWidget from "widgets/FriendListWidget";
-import MyPostWidget from "widgets/MyPostWidget";
 import PostsWidget from "widgets/PostsWidget";
 import UserWidget from "widgets/UserWidget";
 

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser } from "../action/loginAction";
+import { loginUser, registerUser } from "../action/loginAction";
 
 const initialState = {
   status: null,
@@ -8,11 +8,19 @@ const initialState = {
   error: null,
 };
 
+const initialStateRegister = {
+  status: null,
+  isLoading: false,
+  response: null,
+  error: null,
+};
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // Login User
     builder.addCase(loginUser.pending, (state, action) => {
       state.status = "loading";
       state.isLoading = true;
@@ -34,4 +42,32 @@ const authSlice = createSlice({
   },
 });
 
-export default authSlice.reducer;
+const registerSlice = createSlice({
+  name: "register",
+  initialState: initialStateRegister,
+  reducers: {},
+  extraReducers: (builder) => {
+    // Register User
+    builder.addCase(registerUser.pending, (state, action) => {
+      state.status = "loading";
+      state.isLoading = true;
+      state.error = null;
+      state.response = null;
+    });
+    builder.addCase(registerUser.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.status = "success";
+      state.response = action.payload;
+      state.error = null;
+    });
+    builder.addCase(registerUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.status = "failed";
+      state.response = null;
+      state.error = action.error.message;
+    });
+  },
+});
+
+export const auth = authSlice.reducer;
+export const register = registerSlice.reducer;
