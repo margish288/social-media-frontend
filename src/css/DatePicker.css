@@ -1,0 +1,14 @@
+.react-datetime-picker__wrapper {
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+}
+
+.react-calendar {
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.mt-05 {
+  margin-top: 0.5rem;
+}

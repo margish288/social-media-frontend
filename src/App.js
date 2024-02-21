@@ -11,6 +11,7 @@ import { themeSettings } from "./theme";
 import Layout from "components/Layout";
 import NotFound from "pages/notfound";
 import { getUserToken } from "misc/getUserToken";
+import "./css/App.css";
 
 function App() {
   const mode = useSelector((state) => state.localStore.mode);
