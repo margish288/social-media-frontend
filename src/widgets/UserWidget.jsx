@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   ManageAccountsOutlined,
   EditOutlined,
@@ -11,36 +11,23 @@ import { Box, Typography, Divider, useTheme } from "@mui/material";
 import UserImage from "components/UserImage";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
-import { getUser } from "store/action/userAction";
 
-const UserWidget = ({ userId, picturePath }) => {
+const UserWidget = ({ from, userId, picturePath }) => {
   const [user, setUser] = useState(null);
   const { palette } = useTheme();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
 
-  const userData = useSelector((state) => state.user);
+  const userData = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    if (userData.user) {
-      setUser(userData.user);
-    }
+    setUser(userData.user);
   }, [userData]);
 
-  const getCurrentUser = () => {
-    dispatch(getUser(userId));
-  };
-
-  useEffect(() => {
-    getCurrentUser();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   if (!user) {
-    <Box>No data </Box>;
-    return null;
+    return;
   }
 
   const {

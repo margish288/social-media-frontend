@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   IconButton,
@@ -26,16 +26,14 @@ import { setMode } from "store/slice";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 import { debounce } from "misc/debounce";
-import { API_URL } from "config";
-import { userLogout } from "store/action/userAction";
+import { getUser, userLogout } from "store/action/userAction";
+import { searchUser } from "store/action/searchAction";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.auth);
-
-  const token = authUser.user.token;
   const user = authUser.user.user;
 
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
@@ -48,18 +46,8 @@ const Navbar = () => {
 
   const fullName = `${user.firstName} ${user.lastName}`;
 
-  const callSearchApi = async (searchString) => {
-    const apiResponse = await fetch(
-      `${API_URL}/search?username=${searchString}`,
-      {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
-
-    const searchResult = await apiResponse.json();
-
-    // setSearchResult(searchResult);
+  const callSearchApi = (searchString) => {
+    dispatch(searchUser(searchString));
   };
 
   const handleSearch = debounce((e) => {

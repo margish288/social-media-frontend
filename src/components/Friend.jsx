@@ -8,9 +8,9 @@ import UserImage from "./UserImage";
 const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user.user);
-  const friends = user.friends;
-  const _id = user._id;
+  const user = useSelector((state) => state.auth.user);
+  const friends = user.user.friends;
+  const _id = user.user._id;
 
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -19,7 +19,6 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const medium = palette.neutral.medium;
 
   const isFriend = friends.find((friend) => friend._id === friendId);
-
   const patchFriend = () => {
     dispatch(patchFriend({ _id, friendId }));
   };

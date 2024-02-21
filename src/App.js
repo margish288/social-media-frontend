@@ -55,7 +55,7 @@ function App() {
               element={
                 isAuth ? (
                   <Layout>
-                    <ProfilePage />
+                    <ProfilePage user={user.user} />
                   </Layout>
                 ) : (
                   <Navigate to="/" />
