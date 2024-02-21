@@ -21,6 +21,7 @@ import {
   Close,
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
+import UserImage from "components/UserImage";
 import { setMode } from "store/slice";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
@@ -115,9 +116,12 @@ const Navbar = () => {
               <LightMode sx={{ color: dark, fontSize: "25px" }} />
             )}
           </IconButton>
-          <Message sx={{ fontSize: "25px" }} />
-          <Notifications sx={{ fontSize: "25px" }} />
-          <Help sx={{ fontSize: "25px" }} />
+          <Box
+            sx={{ cursor: "pointer" }}
+            onClick={() => navigate(`/profile/${user._id}`)}
+          >
+            <UserImage image={user.picturePath} size="40px" />
+          </Box>
           <FormControl variant="standard" value={fullName}>
             <Select
               value={fullName}
