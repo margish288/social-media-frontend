@@ -1,11 +1,7 @@
 import {
   EditOutlined,
   DeleteOutlined,
-  AttachFileOutlined,
-  GifBoxOutlined,
   ImageOutlined,
-  MicOutlined,
-  MoreHorizOutlined,
 } from "@mui/icons-material";
 import {
   Box,
@@ -15,27 +11,29 @@ import {
   useTheme,
   Button,
   IconButton,
-  useMediaQuery,
 } from "@mui/material";
 import { toast } from "react-toastify";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import FlexBetween from "components/FlexBetween";
 import Dropzone from "react-dropzone";
 import UserImage from "components/UserImage";
 import WidgetWrapper from "components/WidgetWrapper";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { createPost } from "store/action/postsAction";
+import DateTimePicker from "components/DatePicker";
 
 const MyPostWidget = ({ userId, picturePath }) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
 
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
+  const [toggleSchedulePostModal, setToggleSchedulePostModal] = useState(false);
   const [post, setPost] = useState("");
   const { palette } = useTheme();
+  const [timeValue, onTimeChange] = useState(null);
 
-  const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
+  // const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
 
@@ -47,10 +45,26 @@ const MyPostWidget = ({ userId, picturePath }) => {
       formData.append("picture", image);
       formData.append("picturePath", image.name);
     }
+    if (timeValue !== null) {
+      formData.append("scheduleTime", timeValue);
+      formData.append("isSchedulePost", true);
+    } else {
+      formData.append("isSchedulePost", false);
+    }
     dispatch(createPost(formData));
-    toast("Post created successfully");
+
+    !timeValue
+      ? toast("Post created successfully")
+      : toast("Post scheduled successfully");
+
     setImage(null);
     setPost("");
+    setToggleSchedulePostModal(false);
+    onTimeChange(null);
+  };
+
+  const toggleScheduleMenu = () => {
+    setToggleSchedulePostModal(!toggleSchedulePostModal);
   };
 
   return (
@@ -127,7 +141,7 @@ const MyPostWidget = ({ userId, picturePath }) => {
           </Typography>
         </FlexBetween>
 
-        {isNonMobileScreens ? (
+        {/* {isNonMobileScreens ? (
           <>
             <FlexBetween gap="0.25rem">
               <GifBoxOutlined sx={{ color: mediumMain }} />
@@ -148,7 +162,20 @@ const MyPostWidget = ({ userId, picturePath }) => {
           <FlexBetween gap="0.25rem">
             <MoreHorizOutlined sx={{ color: mediumMain }} />
           </FlexBetween>
-        )}
+        )} */}
+
+        <Button
+          disabled={!post}
+          onClick={toggleScheduleMenu}
+          sx={{
+            color: palette.background.alt,
+            backgroundColor: palette.primary.main,
+            borderRadius: "3rem",
+            cursor: "pointer",
+          }}
+        >
+          Schedule Time
+        </Button>
 
         <Button
           disabled={!post}
@@ -157,11 +184,31 @@ const MyPostWidget = ({ userId, picturePath }) => {
             color: palette.background.alt,
             backgroundColor: palette.primary.main,
             borderRadius: "3rem",
+            cursor: "pointer",
           }}
         >
-          POST
+          {post && timeValue && <AccessTimeIcon />}
+          <Typography
+            sx={{
+              marginLeft: "0.1rem",
+            }}
+          >
+            POST
+          </Typography>
         </Button>
       </FlexBetween>
+      <Box gap="1rem" textAlign={"center"} m="0.5rem">
+        {toggleSchedulePostModal ? (
+          <>
+            <DateTimePicker
+              onChange={onTimeChange}
+              value={timeValue}
+              toggleScheduleMenu={toggleScheduleMenu}
+            />
+            {/* generate a date picker which is used to take a future time for the post to schedule */}
+          </>
+        ) : null}
+      </Box>
     </WidgetWrapper>
   );
 };
