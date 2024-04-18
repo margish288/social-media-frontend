@@ -1,18 +1,9 @@
 import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import Form from "./Form";
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
 
 const LoginPage = () => {
   const theme = useTheme();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
-
-  const { token } = useSelector((state) => state);
-  const isAuth = Boolean(token);
-
-  if (isAuth) {
-    return <Navigate to="/home" />;
-  }
 
   return (
     <Box>

@@ -32,8 +32,6 @@ const MyPostWidget = ({ userId, picturePath }) => {
   const [post, setPost] = useState("");
   const { palette } = useTheme();
   const [timeValue, onTimeChange] = useState(null);
-
-  // const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
 
@@ -68,18 +66,19 @@ const MyPostWidget = ({ userId, picturePath }) => {
   };
 
   return (
-    <WidgetWrapper>
+    <WidgetWrapper mb={"2rem"}>
       <FlexBetween gap="1.5rem">
-        <UserImage image={picturePath} />
+        <UserImage image={picturePath} size="40px" />
         <InputBase
           placeholder="What's on your mind..."
           onChange={(e) => setPost(e.target.value)}
           value={post}
           sx={{
+            height: "100px",
             width: "100%",
             backgroundColor: palette.neutral.light,
-            borderRadius: "2rem",
-            padding: "1rem 2rem",
+            borderRadius: "12px",
+            padding: "0.5rem 1rem",
           }}
         />
       </FlexBetween>
@@ -205,7 +204,6 @@ const MyPostWidget = ({ userId, picturePath }) => {
               value={timeValue}
               toggleScheduleMenu={toggleScheduleMenu}
             />
-            {/* generate a date picker which is used to take a future time for the post to schedule */}
           </>
         ) : null}
       </Box>
